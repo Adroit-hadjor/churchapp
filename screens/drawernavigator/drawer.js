@@ -9,7 +9,7 @@ import { About } from '../drawerscreens/about';
 import { Settings } from "../drawerscreens/settings";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createStackNavigator } from '@react-navigation/stack';
-
+import Live from '../drawerscreens/live'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BottomHome } from '../drawerscreens/mainscreen';
 function CustomDrawerContent({  ...rest }) {
@@ -22,7 +22,17 @@ function CustomDrawerContent({  ...rest }) {
             Icon goes here(i.e. coming soon)
           </Text>
         </View>
+     
           <DrawerItemList {...rest} />
+
+          <View style={{height:30,paddingLeft:25,paddingRight:162,flexDirection:"row",justifyContent:"space-between",paddingTop:10}}>
+          <Text>
+            Lo
+          </Text>
+          <Text style={{color:"rgb(105,105,105)"}}>
+            Logout
+          </Text>
+        </View>
         
       </DrawerContentScrollView>
     );
@@ -71,10 +81,10 @@ function CustomDrawerContent({  ...rest }) {
                )
            }}
            />
- {/* 
+
 
           <Drawer.Screen
-           name="Like" 
+           name="Live" 
            component={Live}
            options={{
             title: 'Live',
@@ -83,7 +93,7 @@ function CustomDrawerContent({  ...rest }) {
                )
            }}
            />
-
+ {/* 
 
           <Drawer.Screen
            name="Bookmark" 

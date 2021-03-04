@@ -1,10 +1,11 @@
 import React,{useState,useEffect} from 'react';
-import { SafeAreaView,View,ScrollView, KeyboardAvoidingView, TextInput, TouchableOpacity,StyleSheet, Text, Platform, TouchableWithoutFeedback, Button, Keyboard ,Dimensions } from 'react-native';
+import { SafeAreaView,View,ScrollView, KeyboardAvoidingView, TextInput, TouchableOpacity,StyleSheet, Text, Platform, TouchableWithoutFeedback, Button, Keyboard ,Dimensions,ActivityIndicator } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 import { Reply,SelectedWord } from "../../../components/word";
-
+import { Post,Get } from "../../api";
+import * as Storage from '../../../components/async'
 
 const styles = StyleSheet.create({
   container: {
@@ -32,17 +33,66 @@ const styles = StyleSheet.create({
 });
 
 
-
+const blue = "rgb(0,122,255)"
 
 export function ViewPostScreen({ route,navigation }) {
+  const [reply,setReply]=useState("")
+  const [reps,setReps]=useState([])
   const { post } = route.params;
   const replies=post.replies;
   const [count,setCount] = useState(0)
-   useEffect(()=>{
-     console.log(post.replies)
-   },[count])
+  const [token,setToken] = useState('')
+  
+
+  
+const check = async() =>{
+  const tokens = await Storage.Get('token');
+  setToken(tokens)
+
+}
+const getReplies = async()=>{
+  const url = `replies?post=${post.id}`
+  const find = await Get(url,token)
+  setReps(find)
+}
+
+useEffect(()=>{
+
+  check();
+  getReplies();
+
+  },[])
+  useEffect(()=>{
+
+   
+    getReplies();
+  
+    },[count])
+
+  
     function fn(){
       preNav.navigate('Create_post')
+    }
+    const send = async() =>{
+      if(!reply){
+       
+        return
+      }
+    
+   
+      const body = {
+        word:reply,
+        post:post.id
+      }
+
+      
+
+
+      const url = "replies"
+      const go = await Post(url,body,JSON.stringify(token))
+    setCount(count+1)
+    setReply("")
+       
     }
   
     return (
@@ -74,9 +124,9 @@ export function ViewPostScreen({ route,navigation }) {
   
      
    </View>
-   {post.replies ?
+   {reps.length>0 ?
 
-   replies.map(reply=>{
+   reps.map(reply=>{
      return(
       <View key={reply.id} style={styles.words}>
      
@@ -100,14 +150,21 @@ export function ViewPostScreen({ route,navigation }) {
 
    :
    
-   <View>
+   <View style={{justifyContent:"center",alignItems:"center"}}>
+     <ActivityIndicator/>
      </View>}
   
  
    
    </ScrollView>
   
-   
+   <View style={{flexDirection:"row",justifyContent:"space-around",alignItems:"center",width:screenWidth,backgroundColor:"white",padding:10,borderTopWidth:1,borderColor:"gainsboro"}}>
+                    <TextInput value={reply} onChangeText={(e)=>{setReply(e)}} style={{color:"black",width:screenWidth*0.85,borderRadius:40,paddingLeft:20,backgroundColor:"gainsboro"}} placeholderTextColor="grey" placeholder="Reply here" multiline={true} onSubmitEditing={()=>{send();}} />
+                  <TouchableOpacity onPress={()=>send()}>
+                  <MaterialCommunityIcons color={blue} name="send-outline" size={25}/>
+                  </TouchableOpacity> 
+                   
+                </View>
    </SafeAreaView>
   
     );

@@ -1,13 +1,32 @@
+import React, { Component,useState,useEffect } from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import { UserList } from "./messagestack/userList";
+import { Messaging } from "./messagestack/message";
 
-import React, { Component } from 'react';
-import { View,Text } from 'react-native';
 
 
-export const Messaging = (params) => {
-  return(
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-         <Text>msg</Text> 
-      </View>
-  )
+
+const Root = createStackNavigator();
+
+
+
+ const MessageStack = ({navigation}) => {
+     
+      
+
+
+    return (
+      
+        <Root.Navigator headerMode={false} initialRouteName="UserList" mode={'modal'} >
+              <Root.Screen name="UserList" component={UserList} />
+              <Root.Screen  name="Messaging" component={Messaging} />
+         
+        </Root.Navigator>
+      
+    
+    );
 };
+
 ;
+
+export default MessageStack;

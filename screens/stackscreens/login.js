@@ -18,7 +18,10 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
-  Alert
+  Alert,
+  ImageBackground,Image,
+  KeyboardAvoidingView,
+  Modal,ActivityIndicator,
 } from 'react-native';
 
 import {
@@ -37,7 +40,7 @@ import {Post} from '../api';
 import {Store,Get} from '../../components/async'
 
 const Login = ({navigation})  => {
-
+  const [modalVisible, setModalVisible] = useState(false);
   const [username,setUsername]=useState("")
   const [password,setPassword]=useState("")
   const check = async() =>{
@@ -56,23 +59,24 @@ check();
  },[])
 
  const signin = async() =>{
-  console.log(username)
+  setModalVisible(true)
   const url = "auth/local";
   const body ={
       identifier:username,
       password:password
   }
-/*   try {
+
+  try {
     const log = await Post(url,body)
     const saveValue = await Store("token",log.jwt)
     const getValue = await Store("user",JSON.stringify(log.user))
-    console.log(log.jwt)
+    setModalVisible(false)
     navigation.navigate("Drawer")
   } catch (error) {
     Alert.alert("Login Error","Wrong credentials")
-  } */
+    setModalVisible(false)
+  } 
 
-  navigation.navigate("Drawer")
   
  
  }
@@ -84,25 +88,48 @@ check();
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-     <View style={styles.container}>
-       <View style={{marginBottom:50}}>
-         <GroupImage />
-       </View>
-        <TextInput onChangeText={(e)=>{setUsername(e)}} style={styles.input}  placeholder="username or email"/>
-        <TextInput onChangeText={(e)=>{setPassword(e)}} style={styles.input} secureTextEntry={true}  placeholder="password"/>
+     
+     <ImageBackground blurRadius={1.3} source={require('../images/edwin.jpg')} style={styles.container}>
+     <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+         
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View style={{justifyContent:"center",height:screenHeight*0.08,backgroundColor:"white",width:screenWidth*0.6,borderRadius:10,opacity:1}}>
+           <View style={{flexDirection:"row",justifyContent:"center",alignItems:"center"}}>
+           <ActivityIndicator size="large" color={blue} />
+            <Text style={styles.modalText}>Loading</Text>
+           </View>
+          
+          
+            </View>
+        
+           
+          </View>
+        </View>
+      </Modal>
+      <Image resizeMode={"contain"} style={{width:100,height:100,padding:0,borderWidth:0,borderColor:"white",marginBottom:20}}  source={require('../images/sam-5.png')} />
+      
+        <TextInput value={username}  onChangeText={(e)=>{setUsername(e)}} style={styles.input}  placeholder="username or email"/>
+        <TextInput value={password} onChangeText={(e)=>{setPassword(e)}} style={styles.input} secureTextEntry={true}  placeholder="password"/>
         <TouchableOpacity onPress={()=> signin()}><View style={styles.button}><Text style={styles.text} >Login</Text></View></TouchableOpacity>
 
         <View>
           <TouchableOpacity onPress={()=> signup()}>
-          <Text>
+          <Text style={{color:"white"}}>
             Don't have an account, sign up here
           </Text>
           </TouchableOpacity>
          
         </View>
-     </View>
-      </SafeAreaView>
+     </ImageBackground>
+    
     </>
   );
 };
@@ -114,34 +141,91 @@ const styles = StyleSheet.create({
     alignItems:"center",
     height:screenHeight,
     width:screenWidth,
+    paddingBottom:70
   },
   input:{
       borderWidth:1,
       borderColor:"gainsboro",
-      width:screenWidth*0.7,
+      width:screenWidth*0.8,
       margin:5,
       textAlign:"left",
       paddingLeft:10,
-      borderRadius:40
+      borderRadius:40,
+      backgroundColor:"white",
+      height:50
+     
   },
   button:{
     borderWidth:1,
-    borderColor:"gainsboro",
-    width:screenWidth*0.7,
-    height:screenHeight*0.06,
+   
+    width:screenWidth*0.8,
+    height:50,//screenHeight*0.06,
     margin:10,
-    marginTop:20,
+    marginTop:30,
     textAlign:"center",
     justifyContent:"center",
     alignItems:"center",
     backgroundColor:blue,
-    borderRadius:40
+    borderRadius:40,
+    
    
 
   },
   text:{
     color:fontColor
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+ width:screenWidth,
+    height:screenHeight,
+    margin: 20,
+    marginBottom:90,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    borderRadius: 20,
+    padding: 5,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    justifyContent:"center",
+  
+  },
+  buttonx: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    width:screenWidth*0.3
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+    fontSize:15,
+    paddingTop:15,
+    paddingLeft:15
+    
   }
+  
   
 });
 

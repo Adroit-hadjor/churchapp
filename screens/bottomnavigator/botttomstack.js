@@ -3,9 +3,9 @@ import { Button, View,Text,Dimensions } from 'react-native';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Announcements } from '../bottomscreens/announcement';
-import {Messaging} from '../bottomscreens/messaging';
-import {Trends} from '../bottomscreens/trends';
+import AnnouncementStack  from '../bottomscreens/announcement';
+import MessageStack from '../bottomscreens/messaging';
+import TrendStack from '../bottomscreens/trends';
 import HomeInBottomNav from '../bottomscreens/home';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -41,7 +41,7 @@ export function HomeWithBottomNav({navigation}) {
        />
     <Tab.Screen
      name="Trends"
-      component={Trends} 
+      component={TrendStack} 
       options={{
         tabBarLabel: '',
         tabBarIcon: ({ color, size }) => (
@@ -53,7 +53,7 @@ export function HomeWithBottomNav({navigation}) {
     
     <Tab.Screen
      name="Announcements"
-      component={Announcements}
+      component={AnnouncementStack}
       options={{
         tabBarLabel: '',
         tabBarIcon: ({ color, size }) => (
@@ -68,7 +68,7 @@ export function HomeWithBottomNav({navigation}) {
 
 <Tab.Screen
      name="Messaging"
-      component={Messaging} 
+      component={MessageStack} 
       options={{
         tabBarLabel: '',
         tabBarIcon: ({ color, size }) => (

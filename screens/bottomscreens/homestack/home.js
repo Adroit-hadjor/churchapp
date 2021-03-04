@@ -6,10 +6,13 @@ const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 import { Word,SelectedWord } from "../../../components/word";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import axios from 'axios';
+import * as Store from "../../../components/async";
 import { useFocusEffect } from '@react-navigation/native';
-import {Get} from '../../api'
-
+import {Get,POST} from '../../api'
+const image = '../screens/images/edwin.jpg' 
+const blue = "rgb(0,122,255)";
+const arr = [image]
 
 const styles = StyleSheet.create({
     container: {
@@ -78,28 +81,53 @@ const styles = StyleSheet.create({
 export const Home = ({navigation}) => {
   const [isLife,setIsLife] = useState(true);
   const [posts,setPosts] = useState([])
+  const [likedPosts,setLikedPosts] = useState([])
   const [count,setCount] = useState(0)
+  const [user,setUser] = useState({})
+  const [token,setToken] = useState("")
 
 
-/*   useFocusEffect(
-    React.useCallback(() => {
-      getWord();
-    }, [count])
-  );
- */
+  
+
+
+  const check = async()=>{
+    const use = await Store.Get("user")
+    console.log(use)
+    const u = JSON.parse(use)
+   
+    setUser(u)
+  }
+
+  useEffect(
+  () => {
+    
+    getLiked();
+    }, [user])
+ 
+ 
 useEffect(
 () => {
     getWord();
+    check();
+  
   }, [count]
 );
+
+
 
 
   const getWord = async() =>{
       const url = "posts"
       const get = await Get(url)
       setPosts(get)
-      console.log(posts)
+    //  console.log(posts)
   }
+  const getLiked = async() =>{
+    const url = `like-posts?users_permissions_user=${user.id}`
+    const get = await Get(url)
+    setLikedPosts(get)
+  
+}
 
   function fn(){
     navigation.navigate('Create_post')
@@ -107,10 +135,16 @@ useEffect(
 
   return(
     <SafeAreaView style={styles.container}>
+        <View style={{height:screenHeight*0.07,flexDirection:"row",justifyContent:"flex-start",alignItems:"center",backgroundColor:"white",padding:10,borderBottomColor:"gainsboro",borderBottomWidth:1}}>
+                
+                    <Text style={{color:blue,fontSize:18}} > Home </Text>
+                    <View></View> 
+                   
+                </View>
     <ScrollView style={styles.scrollView}>
       {isLife ?  
        <View elevation={5} style={styles.live}>
- <TouchableOpacity style={{width:screenWidth*0.4}} onPress={()=>{navigation.navigate('Contact');}}>
+ <TouchableOpacity style={{width:screenWidth*0.4}} onPress={()=>{navigation.navigate('Live');}}>
          <LivePlayer/>
     </TouchableOpacity>
         <LiveDetails onPress={()=>setIsLife(!isLife)} theme="The Fear Of the Lord" duration="10hrs" other="First Service"/>
@@ -130,6 +164,8 @@ style={{
 }}
 />
 {posts.map((post)=>{
+  console.log(post.users_permissions_user.profile_picture)
+ 
   return(
       <View key={post.id}  style={styles.words}>
    
@@ -140,11 +176,12 @@ style={{
          post:post,
         });
       }} >
-       <Word  nav={navigation} fn={fn}  name={post.users_permissions_user.username}
+       <Word  nav={navigation} fn={fn}  name={post.users_permissions_user.username} prof_pic={post.users_permissions_user.profile_picture?"http://localhost:1337"+post.users_permissions_user.profile_picture.formats.small.url:''}
        text={post.word}
        likes={post.likes}
        replies={post.numberOfReplies}  
        id={post.id}     
+       images={post.image1}
                   />
                   </TouchableOpacity>
    
@@ -153,67 +190,28 @@ style={{
     </View>)
     })}
   
-     <View style={styles.words}>
+
+  {
+    posts.length == 0 ?  <View style={{justifyContent:"center",alignItems:"center",height:100}}>
    
  
    
-   <TouchableOpacity delayPressIn={40} onPress={()=>{
-      navigation.navigate('View');
-   }} >
-    <Word nav={navigation} fn={fn}  name="Kofi Adjololo" 
-    text="Lorem ipsum dolor sit amet,
-               consectetuer adipiscing elisggs. "
-    likes={10}
-    replies={25}  
-    id={1}     
-               />
-               </TouchableOpacity>
+   <Text> No post found</Text>
+               
+ 
+ 
+    
+  </View> : <View></View>
+  }
+    
 
-
-   
- </View>
- <View style={styles.words}>
-   
-  
-  <TouchableOpacity delayPressIn={40}>
-   <Word nav={navigation} fn={fn} name="Kofi Adjololo" text="Lorem ipsum dolor sit amet,
-               consectetuer adipiscing elit. Aenean commodo 
-               ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis 
-               parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu,
-               pretium quis, sem. Nulla consequat masaaaaaaaaaaaaaaaaa" 
-    likes={109}
-    replies={25} 
-    id={2}
-    />
-    </TouchableOpacity>
-
-
-</View>
-<View style={styles.words}>
-   
-  
-  <TouchableOpacity delayPressIn={40} >
-   <Word nav={navigation} fn={fn} name=" Benzema" text="Lorem ipsum dolor sit amet,
-               consectetuer adipiscing elit. Aenean commodo 
-               ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis 
-               parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu,
-               pretium quis, sem. Nulla consequat mas
-               " 
-    likes={109}
-    replies={25} 
-    id={9}
-    />
-    </TouchableOpacity>
-
-
-</View>
  
  </ScrollView>
 
  <View style={{position:'absolute',bottom:screenHeight*0.04,right:screenWidth*0.08,width:70,height:70,borderRadius:160,backgroundColor:"rgb(0,122,255)",justifyContent:"center",alignItems:"center"}}>
   <View>
   <Text style={{color:"white"}}>
-    <TouchableOpacity delayPressIn={2} onPress={() => navigation.navigate('Create')}>
+    <TouchableOpacity delayPressIn={2} onPress={() => navigation.push('Create')}>
     <MaterialCommunityIcons color={"white"} name="pen-plus" size={25}/>
       </TouchableOpacity>
    </Text>

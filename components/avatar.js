@@ -24,6 +24,8 @@ const styles = StyleSheet.create({
       borderRadius:130,
       height:150,
       width:150,
+    borderWidth:1,
+      borderColor:"gainsboro"
 
     },
     iconSide:{flex:1},
@@ -38,7 +40,7 @@ const styles = StyleSheet.create({
 export const Avatar = ({img, ...props}) => {
   return(
     <ImageBackground 
-    source={{uri:img}} style={styles.container}>
+    source={img ? {uri:img} : require('../screens/images/user-active.png')} style={styles.container}>
     </ImageBackground>
   )
 };
@@ -49,10 +51,20 @@ export const AvatarSignUp = ({img, ...props}) => {
   return(
     <ImageBackground 
     resizeMode="cover"
-    source={img ? {uri:img} : require('../screens/images/profilepic.png')} style={styles.signup}>
-      <Text style={{color:"rgb(0,122,255)",textAlign:"center",width:"70%",fontSize:20}}>
+    source={img ? {uri:img} : require('../screens/images/user-active.png')} style={styles.signup}>
+      <Text style={{color:"grey",textAlign:"center",width:"70%",fontSize:20}}>
         Add Profile picture
       </Text>
+    </ImageBackground>
+  )
+};
+
+export const AvatarProfile = ({img, ...props}) => {
+  return(
+    <ImageBackground 
+    resizeMode="cover"
+    source={img ? {uri:img} : require('../screens/images/user-active.png')} style={styles.signup}>
+    
     </ImageBackground>
   )
 };
