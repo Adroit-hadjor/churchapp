@@ -13,7 +13,8 @@ const styles = StyleSheet.create({
         width:'100%',
         borderBottomWidth:1,
         borderBottomColor:'gainsboro',
-        height:screenHeight*0.10,
+        height:'auto',
+        padding:15,
         justifyContent:'center',
         alignItems:'flex-start'
 
@@ -24,7 +25,8 @@ const styles = StyleSheet.create({
        justifyContent:'space-evenly',
        alignItems:'flex-start' ,
        height:'auto',
-       width:screenWidth
+       width:screenWidth,
+       paddingTop:20,
     },
     form:{
         padding:10,
@@ -47,10 +49,10 @@ export const About = (params) => {
       <SafeAreaView style={styles.container}>
           <ScrollView style={styles.scrollview}>
           <View style={styles.header}>
-       <Text style={{fontSize:20,paddingLeft:10,color:blue}}>
+       <Text style={{fontSize:20,color:blue}}>
               About Us
           </Text>
-          <Text style={{fontSize:15,paddingLeft:10,color:'grey'}}>
+          <Text style={{fontSize:15,color:'grey',lineHeight:25}}>
          A vision  to revolutionize the prophetic across the world
           </Text>
        </View>
@@ -59,12 +61,12 @@ export const About = (params) => {
            <Text style={{fontSize:20,color:blue,paddingBottom:5,paddingTop:10}}>
               Revolutionary Prophet
            </Text>
-           <Text style={{fontSize:15,color:'black'}}>
+           <Text style={{fontSize:15,color:'black',lineHeight:30}}>
            Prophet Sampson’s vision is to revolutionize the prophetic across the world. It’s not enough for you to simply receive prophecy but you must also receive prophetic direction to ensure the prophecy
            manifests in your life. This is an important part of the prophetic process that Prophet Sampson incorporates in his ministry. As a result countless people who have encountered this Man of God have experienced the miraculous in their lives.
            </Text>
 
-           <Text style={{fontSize:15,color:'black',paddingTop:10}}>
+           <Text style={{fontSize:15,color:'black',paddingTop:10,lineHeight:30}}>
            The Mysteries of the Holy Communion
         Follow Prophet Sampson daily as he teaches about the Mysteries of the bread & wine. These Biblically based teachings have
          radically changed the lives of those who follow the teachings as the power of the blood is revealed & then applied in a practical manner.
@@ -78,7 +80,7 @@ export const About = (params) => {
        </View>
 
 
-       <View style={styles.form}>
+       <View style={{...styles.form,padding:10,backgroundColor:'gainsboro',borderBottomWidth:1,borderBottomColor:'gainsboro'}}>
          <ImageBackground style={{width:screenWidth*0.45,height:screenHeight*0.3}}  source={{uri: 'https://sampsonamoateng.net/wp-content/uploads/2018/08/prof8-458x416.jpg'}} >
 
          </ImageBackground>
@@ -93,14 +95,14 @@ export const About = (params) => {
            <Text style={{fontSize:20,color:blue,paddingBottom:5,paddingTop:10}}>
            Who Is Sampson Amoateng?
            </Text>
-           <Text style={{fontSize:15,color:'black'}}>
+           <Text style={{fontSize:15,color:'black',lineHeight:30,padding:5}}>
            Prophet Sampson Amoateng has an incredible passion & love for God. He lives a life completely focused on hearing from God so that he can be used as a vessel to help change lives.   He has been called to Muslim-donated areas but his ministry spans the globe.  He yearns to see souls won for the Kingdom of God & labors tirelessly to this end.
            </Text>
 
-           <Text style={{fontSize:15,color:'black',paddingTop:10}}>
+           <Text style={{fontSize:15,color:'black',paddingTop:10,lineHeight:30,padding:5}}>
            Prophet Sampson extends the love of God to all that he meets. His unconditional love for people has impacted thousands & inspired even the most hopeless soul to embrace his motto: you are too needed to be wasted.   He has been graced with the gift of identifying the best in people & pushing them into their destiny
            </Text>
-           <Text style={{fontSize:15,color:'black',paddingTop:10}}>
+           <Text style={{fontSize:15,color:'black',paddingTop:10,lineHeight:30,padding:5}}>
            Prophet Sampson pours into young people & many are not only passionate about God but responding early to the call on their lives!
            </Text>
            </View>
@@ -116,7 +118,7 @@ export const About = (params) => {
            <Text style={{fontSize:20,color:blue,paddingBottom:5,paddingTop:10}}>
            Our Vision
            </Text>
-           <Text style={{fontSize:15,color:'black'}}>
+           <Text style={{fontSize:15,color:'black',lineHeight:30,padding:5}}>
            To bring hope to even the most hopeless of people that
 all may come to recognize that they are
 “Too Needed to Be Wasted”
@@ -136,7 +138,7 @@ all may come to recognize that they are
            <Text style={{fontSize:20,color:blue,paddingBottom:5,paddingTop:10}}>
            OUR MISSION
            </Text>
-           <Text style={{fontSize:15,color:'black'}}>
+           <Text style={{fontSize:15,color:'black',lineHeight:30,padding:5}}>
            To bring the life-giving, life transforming gospel of
 
 Grace to the nations
@@ -155,7 +157,7 @@ Grace to the nations
            <Text style={{fontSize:20,color:blue,paddingBottom:5,paddingTop:10}}>
            OUR VALUES
            </Text>
-           <Text style={{fontSize:15,color:'black'}}>
+           <Text style={{fontSize:15,color:'black',padding:5,lineHeight:30}}>
            We will operate in integrity at all times (2 Corinthians 8:21)
 We will be obedient to the Word of God (Luke 11:28)
 We will exercise faith &amp; trust God in all that we do (1 Chronicles 16:11)

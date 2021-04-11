@@ -21,7 +21,7 @@ import {
   Touchable
   ,ImageBackground,
   Alert,Modal,ActivityIndicator,
-  Pressable
+  Pressable,KeyboardAvoidingView
 } from 'react-native';
 import {AvatarSignUp} from '../../components/avatar';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -39,7 +39,7 @@ const fontColor = "white";
 import axios from 'axios';
 import FormData from 'form-data';
 import * as Storage from '../../components/async'
-import {PostWithImage,Get,Post} from '../api';
+import {PostWithImage,Get,Post,REACT_APP_API_URL} from './../api';
 
 const SignUp = ({navigation})  => {
 
@@ -159,7 +159,7 @@ const SignUp = ({navigation})  => {
   formData.append('description', description);
   
 
-  axios.post('http://0.0.0.0:1337/auth/local/register', formData)
+  axios.post(`${REACT_APP_API_URL}/auth/local/register`, formData)
 
   .then(res => {
      
@@ -175,10 +175,11 @@ const SignUp = ({navigation})  => {
     data.append('files', { uri:profileImage.path, name: 'image.jpg', type: 'image/jpeg' },)
   data.append('ref', 'user') // optional, you need it if you want to link the image to an entry
   data.append('refId', refId.data.user.id) // optional, you need it if you want to link the image to an entry
-  data.append('field', 'profile_picture') // optional, you need it if you want to link the image to an entry
+  data.append('field', 'profilePicture')
+  //For amazon: data.append('field', 'profile_picture') // optional, you need it if you want to link the image to an entry
   data.append('source', 'users-permissions');
  
-    const res =   axios.post('http://0.0.0.0:1337/upload', data, {headers: {'Content-Type': 'multipart/form-data',Authorization: `Bearer ${refId.data.jwt}`}}) 
+    const res =   axios.post(`${REACT_APP_API_URL}/upload`, data, {headers: {'Content-Type': 'multipart/form-data',Authorization: `Bearer ${refId.data.jwt}`}}) 
  
  return refId
         
@@ -190,12 +191,14 @@ const SignUp = ({navigation})  => {
   formData.append('files', { uri:headerImage.path, name: 'image.jpg', type: 'image/jpeg' },)
 formData.append('ref', 'user') // optional, you need it if you want to link the image to an entry
 formData.append('refId', refId.data.user.id) // optional, you need it if you want to link the image to an entry
-formData.append('field', 'header_picture') // optional, you need it if you want to link the image to an entry
+
+formData.append('field', 'headerPicture') 
+//For amazon: formData.append('field', 'header_picture') // optional, you need it if you want to link the image to an entry
 formData.append('source', 'users-permissions');
 
-  const rest =   axios.post('http://0.0.0.0:1337/upload', formData, {headers: {'Content-Type': 'multipart/form-data',Authorization: `Bearer ${refId.data.jwt}`}}) 
+  const rest =   axios.post(`${REACT_APP_API_URL}/upload`, formData, {headers: {'Content-Type': 'multipart/form-data',Authorization: `Bearer ${refId.data.jwt}`}}) 
 
-  Alert.alert("reistered successfully")
+  Alert.alert("registered successfully")
   setModalVisible(false)
   navigation.navigate("Drawer")
       
@@ -247,7 +250,7 @@ const setHeader = () =>{
   return (
     <>
      
-      <SafeAreaView  style={styles.container}>
+      <KeyboardAvoidingView behavior={"padding"} style={styles.container}>
       <Modal
         animationType="slide"
         transparent={true}
@@ -282,9 +285,9 @@ const setHeader = () =>{
             </TouchableOpacity> 
          </View>
         
-         <TouchableOpacity onPress={()=>{setHeader();}} >
+         <TouchableOpacity  >
           <ImageBackground style={styles.header} source={{uri:headerImage.path}}>
-          <Text style={{color:"white"}}>Add Header</Text>
+          
           </ImageBackground>
           
           
@@ -294,21 +297,24 @@ const setHeader = () =>{
          <Text style={{marginTop:screenHeight*0.15,color:"grey"}}>
            Enter your details below to get started
          </Text>
-          <TextInput onChangeText={(e)=>{setUsername(e)}} style={styles.inputone}  placeholder="username "/>
+          <TextInput placeholderTextColor={"grey"} onChangeText={(e)=>{setUsername(e)}} style={styles.inputone}  placeholder="username "/>
             {usernameError?<Text style={styles.error}>{usernameError}</Text> :<Text></Text>}
-          <TextInput onChangeText={(e)=>{setEmail(e)}} style={styles.input}   placeholder="email"/>
+          <TextInput placeholderTextColor={"grey"} onChangeText={(e)=>{setEmail(e)}} style={styles.input}   placeholder="email"/>
           {emailError?<Text style={styles.error}>{emailError}</Text> :<Text></Text>}
-        <TextInput onChangeText={(e)=>{setPassword(e)}} style={styles.input} secureTextEntry={true}  placeholder="password"/>
+        <TextInput placeholderTextColor={"grey"} onChangeText={(e)=>{setPassword(e)}} style={styles.input} secureTextEntry={true}  placeholder="password"/>
         {passwordError?<Text style={styles.error}>{passwordError}</Text> :<Text></Text>}
-        <TextInput style={styles.input} secureTextEntry={true}  onChangeText={(e)=>{setConfirmPassword(e)}} placeholder="confirm password"/>
+        <TextInput placeholderTextColor={"grey"} style={styles.input} secureTextEntry={true}  onChangeText={(e)=>{setConfirmPassword(e)}} placeholder="confirm password"/>
         {confirmPasswordError?<Text style={styles.error}>{confirmPasswordError}</Text> :<Text></Text>}
-        <TextInput onChangeText={(e)=>{setRole(e)}} style={styles.input}  placeholder="role"/>
+        
+        <TextInput placeholderTextColor={"grey"} onChangeText={(e)=>{setRole(e)}} style={styles.input}  placeholder="role (optional)"/>
         <Text></Text>
-        <TextInput onChangeText={(e)=>{setDescription(e)}} style={styles.inputtwo} multiline={true} numberOfLines={5}  placeholder="description about you"/>
+        <TextInput placeholderTextColor={"grey"}  onChangeText={(e)=>{setDescription(e)}} style={styles.inputtwo} multiline={true} numberOfLines={5}   placeholder="description about you (optional)"/>
         <Text></Text>
         <TouchableOpacity onPress={()=> signup()}><View style={styles.button}><Text style={styles.text} >Sign Up</Text></View></TouchableOpacity>
 
      
+       
+       
    
         
 
@@ -328,7 +334,7 @@ const setHeader = () =>{
         </ScrollView>
        
     
-      </SafeAreaView>
+      </KeyboardAvoidingView >
     </>
   );
 };
@@ -347,7 +353,8 @@ const styles = StyleSheet.create({
     height:screenHeight*0.05,
     justifyContent:"center",
     alignItems:"flex-start",
-     width:"100%"
+     width:"100%",
+     marginTop:50
   },
   input:{
       borderWidth:1,
@@ -356,8 +363,9 @@ const styles = StyleSheet.create({
       margin:10,
       textAlign:"left",
       paddingLeft:10,
-      borderRadius:40,
-      backgroundColor:"#F8F8F8"
+      borderRadius:10,
+      backgroundColor:"#F8F8F8",
+      height:50
   },
   inputone:{
     borderWidth:1,
@@ -366,20 +374,20 @@ const styles = StyleSheet.create({
     margin:10,
     textAlign:"left",
     paddingLeft:10,
-    marginTop:screenHeight*0.05,
-    borderRadius:40,
-    backgroundColor:"#F8F8F8"
+    marginTop:screenHeight*0.15,
+    borderRadius:10,
+    backgroundColor:"#F8F8F8",
+    height:50
 },
 inputtwo:{
   borderWidth:1,
   borderColor:"gainsboro",
   width:screenWidth*0.9,
   margin:10,
-  textAlign:"left",
-  paddingLeft:10,
- height:screenHeight*0.15,
-  borderRadius:40,
-  backgroundColor:"#F8F8F8"
+ height:screenHeight*0.1,
+  borderRadius:10,
+  backgroundColor:"#F8F8F8",
+  padding:10
 },
   button:{
     borderWidth:1,
@@ -391,7 +399,7 @@ inputtwo:{
     justifyContent:"center",
     alignItems:"center",
     backgroundColor:blue,
-    borderRadius:40
+    borderRadius:10
    
 
   },
@@ -424,7 +432,7 @@ inputtwo:{
   },
   avatar:{
     position:"absolute",
-    top:screenWidth*0.27,
+    top:screenWidth*0.42,
     left:0,
     borderBottomColor:"gainsboro",
     width:screenWidth,

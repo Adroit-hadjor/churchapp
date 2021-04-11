@@ -7,14 +7,21 @@ const dimensions = {
 
 export default StyleSheet.create({
     item: {
-        backgroundColor: 'transparent',
+        backgroundColor: 'gainsboro',
         padding: 20,
         marginVertical: 8,
         marginHorizontal: 16,
+        borderRadius:20,
+        zIndex:1,
+        elevation:2
       },
       title: {
         fontSize: 12,
-        color:"white"
+        color:"black"
+      },
+      titlex: {
+        fontSize: 11,
+        color:"grey"
       },
     max: {
         flex: 1,
@@ -22,7 +29,7 @@ export default StyleSheet.create({
     maxs: {
         flex: 1,
         position:"relative",
-        height:dimensions.height +100
+       backgroundColor:"white"
     },
     buttonHolder: {
         height: '50%',
@@ -31,7 +38,7 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         borderWidth:1,
-        borderColor:'black'
+        borderColor:'white'
     },
     button: {
         paddingHorizontal: 20,

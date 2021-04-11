@@ -1,6 +1,7 @@
 
-import React from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar ,TouchableOpacity, Touchable,Dimensions } from 'react-native';
+import React,{useState} from 'react';
+import { SafeAreaView, View, FlatList, StyleSheet, Text,TextInput, StatusBar ,TouchableOpacity, Touchable,Dimensions } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 import {Avatar} from "../../../components/avatar"
@@ -36,6 +37,9 @@ const styles = StyleSheet.create({
     paddingLeft:10,
     color:"grey"
    
+  },
+  search:{
+    height:'12%',borderBottomWidth:1,justifyContent:'space-around',alignItems:'center',flexDirection:'row',borderColor:"gainsboro"
   },
 });
 
@@ -73,6 +77,9 @@ const Item = ({ title, navigation}) => (
 
 export const UserList = ({navigation}) => {
 
+  const [cancel,setCancel]= useState(false)
+  const [search,setSearch]= useState("")
+
   const renderItem = ({ item }) => (
     <Item navigation={navigation} title={item.title} />
   );
@@ -80,7 +87,7 @@ export const UserList = ({navigation}) => {
 
   return(
     <SafeAreaView style={styles.container}>
-        <View style={{height:screenHeight*0.07,flexDirection:"row",justifyContent:"space-between",alignItems:"center",width:screenWidth,backgroundColor:"white",padding:10,borderBottomColor:"gainsboro",borderBottomWidth:1}}>
+        <View style={{height:screenHeight*0.07,flexDirection:"row",justifyContent:"space-between",alignItems:"center",width:screenWidth,backgroundColor:"white",padding:5,borderBottomColor:"gainsboro",borderBottomWidth:1}}>
                 <TouchableOpacity onPress={()=>{navigation.goBack()}}>
                 <Text style={{color:blue}}>Go Back</Text>
                   </TouchableOpacity>  
@@ -88,6 +95,15 @@ export const UserList = ({navigation}) => {
                     <View></View> 
                    
                 </View>
+                <View style={styles.search}>
+     
+        <View>
+        <TextInput onChangeText={(e)=>{setSearch(e),setCancel(true)}} value={search} placeholder="Search " style={{fontSize:15,paddingLeft:30,width:screenWidth*0.95,borderRadius:10,borderColor:"rgb(0,122,255)",height:screenHeight*0.055,backgroundColor:"gainsboro"}}  />
+        </View>
+        
+        </View>
+
+
     <FlatList
       data={DATA}
       renderItem={renderItem}

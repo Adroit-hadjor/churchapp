@@ -10,6 +10,7 @@ import {Store,Get} from '../../components/async'
 import { View } from 'react-native';
 
 
+
 const Root = createStackNavigator();
 
 
@@ -24,6 +25,7 @@ const Root = createStackNavigator();
         <Root.Navigator headerMode={false} initialRouteName="HomeInBottomNav" mode={'modal'} >
               <Root.Screen name="HomeInBottomNav" component={Home} />
              <Root.Screen  name="Create" component={CreateWord} />
+             
     <Root.Screen name="View" component={ViewPostScreen} />
     <Root.Screen name="Profile" component={ViewProfileScreen} />
         </Root.Navigator>

@@ -6,13 +6,14 @@ const screenHeight = Math.round(Dimensions.get('window').height);
 
 const styles = StyleSheet.create({
     container: {
-      borderTopLeftRadius:15,
-      borderBottomLeftRadius:15,
+     borderRadius:40,
       flex: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
-      overflow:"hidden"
+      overflow:"hidden",
+      width:screenWidth*0.9,
+      
     }
   });
   
@@ -21,10 +22,42 @@ const styles = StyleSheet.create({
 export const LivePlayer = (params) => {
   return(
     
-      <ImageBackground 
+      <ImageBackground  blurRadius={0.4}
       source={{uri: 'https://sampsonamoateng.net/wp-content/uploads/2018/08/prof8-458x416.jpg'}} style={styles.container}>
           <View style={{borderWidth:1,borderRadius:90,borderColor:"orange" ,width:80,height:80,position:'relative',justifyContent:"center",alignItems:"center"}}>
-          <MaterialCommunityIcons  color={"orange"}  name="play-circle"  size={65} />
+          <MaterialCommunityIcons  color={"orange"}  name="play-circle-outline"  size={65} />
+                </View>
+               
+          
+      </ImageBackground>
+    
+  )
+};
+;
+
+export const LivePlayer1 = (params) => {
+  return(
+    
+      <ImageBackground  blurRadius={0.4}
+      source={{uri: 'https://i1.sndcdn.com/avatars-000215073342-2bmvrs-t500x500.jpg'}} style={styles.container}>
+          <View style={{borderWidth:1,borderRadius:90,borderColor:"orange" ,width:80,height:80,position:'relative',justifyContent:"center",alignItems:"center"}}>
+          <MaterialCommunityIcons  color={"orange"}  name="play-circle-outline"  size={65} />
+                </View>
+               
+          
+      </ImageBackground>
+    
+  )
+};
+;
+
+export const LivePlayer2 = (params) => {
+  return(
+    
+      <ImageBackground  blurRadius={0.4}
+      source={{uri: 'https://pbs.twimg.com/profile_images/1226242216550686721/oSLG2VyM.jpg'}} style={styles.container}>
+          <View style={{borderWidth:1,borderRadius:90,borderColor:"orange" ,width:80,height:80,position:'relative',justifyContent:"center",alignItems:"center"}}>
+          <MaterialCommunityIcons  color={"orange"}  name="play-circle-outline"  size={65} />
                 </View>
                
           

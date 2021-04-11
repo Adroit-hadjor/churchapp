@@ -6,7 +6,7 @@ import {ViewPost} from './trendsstack/viewpost';
 import {Trends} from './trendsstack/trends';
 import {Store,Get} from '../../components/async'
 import { View } from 'react-native';
-
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Root = createStackNavigator();
 

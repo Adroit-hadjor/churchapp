@@ -3,12 +3,12 @@ import { View, KeyboardAvoidingView, TextInput, TouchableOpacity,StyleSheet, Tex
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
-import {Store,Get} from '../../../components/async'
+import {Get} from '../../api'
 import FormData from 'form-data';
 import axios from "axios";
 import ImagePicker from 'react-native-image-crop-picker';
 import { Post } from "../../api";
-
+import { WebView } from 'react-native-webview';
 
 
 
@@ -35,152 +35,31 @@ const [modalVisible, setModalVisible] = useState(false);
 const blue = "rgb(0,122,255)"
 
 const check = async() =>{
-  const tokens = await Get('token');
-  setToken(tokens)
-  console.log(token)
+  const url= "youtubes/1"
+  const tokens = await Get(url);
+  setToken(tokens.link)
+  console.log("tk is "+token)
 
 }
 
-const postWithImage =async()=>{
-
- 
-  const body = {
-    word:word
-  }
-  const url = "posts"
-  const go = await Post(url,body,JSON.stringify(token))
-   
- 
- const refId = go.id
- console.log(refId)
-
- if(refId>0){
-  imageArr.slice(0,4).map((im)=>{
-   
-const d = im.modificationDate
- const name = d.toString()+".jpg"
- console.log(name)
-    const data = new FormData();
-    data.append('files', { uri:im.path, name:name, type: 'image/jpeg' },)
-  data.append('ref', 'post') // optional, you need it if you want to link the image to an entry
-  data.append('refId', refId) // optional, you need it if you want to link the image to an entry
-  data.append('field', 'image1') // optional, you need it if you want to link the image to an entry
-  //data.append('source', 'users-permissions');
- console.log(data)
-    const res =   axios.post('http://0.0.0.0:1337/upload', data, {headers: {'Content-Type': 'multipart/form-data',Authorization: `Bearer ${token}`}}) 
- 
-
-  })
- }
 
 
- navigation.push("HomeInBottomNav")
 
-   
-  
-  
-   
-}
 
-const openImage = () =>{
-  setImageArr([])
-  ImagePicker.openPicker({
-   multiple:true,
-  cropping: true,
-  maxFiles:4
-  }).then(images => {
-    
-setImageArr(images)
-  });
-}
-
-const send = async() =>{
-  if(!word){
-    setError("Your post is empty")
-    return
-  }
-  setModalVisible(true)
-  if(imageArr.length>0){
-   const gone = await postWithImage();
-    setModalVisible(false)
-    return
-  }
-  const body = {
-    word:word
-  }
-  const url = "posts"
-  const go = await Post(url,body,JSON.stringify(token))
-
- 
-
-setModalVisible(false)
-navigation.push("HomeInBottomNav")
-
-}
 
 useEffect(()=>{
 
 check();
-},[])
+},[count])
 
 
   return (
    
     <View style={styles.container}>
-       <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-        
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <View style={{justifyContent:"center",height:screenHeight*0.1,backgroundColor:"white",width:screenWidth*0.8}}>
-           <View style={{flexDirection:"row",justifyContent:"center",alignItems:"center"}}>
-           <ActivityIndicator size="large" color={blue} />
-            <Text style={styles.modalText}>Loading</Text>
-           </View>
-              
-          
-            </View>
-        
-           
-          </View>
-        </View>
-      </Modal>
-        <View style={styles.inner}>
-          <View style={{width:'100%',flexDirection:'row',justifyContent:'flex-end'}}>
-       <TouchableOpacity onPress={()=>{send();}}><Text style={styles.header}>Posts</Text></TouchableOpacity>
-          
-            </View> 
-            <View>
-              <TextInput onChangeText={(e)=>setWord(e)} value={word} style={styles.textInput}/>
-             
-            </View>
-        
-        <View style={{borderWidth:0,borderColor:'red',width:screenWidth,height:screenHeight*0.05,alignItems:"flex-start",justifyContent:"center"}}>
-   <TouchableOpacity onPress={()=>openImage()}>
-   <MaterialCommunityIcons color="rgb(0,122,255)" name="image" size={30} />
-     </TouchableOpacity> 
-
-        </View>
-        <View>
-        {error? <Text style={{color:"red"}}>{error}</Text>: <Text></Text>}
-
-        </View>
-      
-        </View>
-        <View style={{width:screenWidth,padding:10,flexDirection:"row",height:'auto',alignItems:"center",justifyContent:"center"}}>
-        {imageArr.length > 0 ? imageArr.slice(0,4).map((imag) => {
-            return(
-              <Image resizeMode={"cover"} style={{width:"20%",height:120,marginTop:50,margin:10}} source={{uri:imag.path}}/>
-            )
-        }): <Text></Text>}
-
-        </View>
+      <View style={{height:80,backgroundColor:"white",justifyContent:"flex-end",padding:10}}> 
+      <TouchableOpacity onPress={()=>navigation.navigate("HomeInBottomNav")}><Text style={{color:"blue"}}>Go Back </Text></TouchableOpacity>
+      </View>
+     <WebView source={{ uri: token}} />
         </View>
 
   );
@@ -269,8 +148,10 @@ const styles = StyleSheet.create({
     paddingTop:15,
     paddingLeft:15
     
-  }
-  
+  },
+  backgroundVideo: {
+  height:screenHeight
+  },
 });
 
 export default CreateWord;

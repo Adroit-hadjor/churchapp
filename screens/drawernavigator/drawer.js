@@ -11,27 +11,21 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { createStackNavigator } from '@react-navigation/stack';
 import Live from '../drawerscreens/live'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BottomHome } from '../drawerscreens/mainscreen';
+import HomeInBottomNav  from '../bottomscreens/home';
+import Vid from '../drawerscreens/videoStack'
 function CustomDrawerContent({  ...rest }) {
  
 
     return (
       <DrawerContentScrollView {...rest}>
         <View style={styles.header}>
-          <Text>
-            Icon goes here(i.e. coming soon)
-          </Text>
+          
         </View>
      
           <DrawerItemList {...rest} />
 
           <View style={{height:30,paddingLeft:25,paddingRight:162,flexDirection:"row",justifyContent:"space-between",paddingTop:10}}>
-          <Text>
-            Lo
-          </Text>
-          <Text style={{color:"rgb(105,105,105)"}}>
-            Logout
-          </Text>
+         
         </View>
         
       </DrawerContentScrollView>
@@ -73,12 +67,14 @@ function CustomDrawerContent({  ...rest }) {
     
          <Drawer.Screen
            name="Home" 
-      component={BottomHome  } 
+      component={HomeInBottomNav } 
            options={{
             title: 'Home',
+            edgeWidth: 10,
              drawerIcon: ({color, focused, size }) => (
             <MaterialCommunityIcons color={color} name="home"  size={size} /> 
                )
+
            }}
            />
 
@@ -87,9 +83,19 @@ function CustomDrawerContent({  ...rest }) {
            name="Live" 
            component={Live}
            options={{
-            title: 'Live',
+            title: 'Watch Live',
              drawerIcon: ({ color,focused, size }) => (
               <MaterialCommunityIcons color={color} name="television"  size={size} />
+               )
+           }}
+           />
+           <Drawer.Screen
+           name="Videos" 
+           component={Vid}
+           options={{
+            title: 'Sermons',
+             drawerIcon: ({ color,focused, size }) => (
+              <MaterialCommunityIcons color={color} name="play-circle-outline"  size={size} />
                )
            }}
            />

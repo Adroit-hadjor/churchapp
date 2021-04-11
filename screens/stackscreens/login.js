@@ -60,7 +60,7 @@ check();
 
  const signin = async() =>{
   setModalVisible(true)
-  const url = "auth/local";
+   const url = "auth/local";
   const body ={
       identifier:username,
       password:password
@@ -70,12 +70,14 @@ check();
     const log = await Post(url,body)
     const saveValue = await Store("token",log.jwt)
     const getValue = await Store("user",JSON.stringify(log.user))
-    setModalVisible(false)
+    setModalVisible(false) 
     navigation.navigate("Drawer")
   } catch (error) {
     Alert.alert("Login Error","Wrong credentials")
     setModalVisible(false)
-  } 
+  }  
+ 
+setModalVisible(false)
 
   
  
@@ -116,8 +118,8 @@ check();
       </Modal>
       <Image resizeMode={"contain"} style={{width:100,height:100,padding:0,borderWidth:0,borderColor:"white",marginBottom:20}}  source={require('../images/sam-5.png')} />
       
-        <TextInput value={username}  onChangeText={(e)=>{setUsername(e)}} style={styles.input}  placeholder="username or email"/>
-        <TextInput value={password} onChangeText={(e)=>{setPassword(e)}} style={styles.input} secureTextEntry={true}  placeholder="password"/>
+        <TextInput value={username}  onChangeText={(e)=>{setUsername(e)}} style={styles.input}  placeholder="username or email"  placeholderTextColor={"grey"}/>
+        <TextInput value={password} onChangeText={(e)=>{setPassword(e)}} style={styles.input} secureTextEntry={true}  placeholder="password" placeholderTextColor={"grey"} />
         <TouchableOpacity onPress={()=> signin()}><View style={styles.button}><Text style={styles.text} >Login</Text></View></TouchableOpacity>
 
         <View>
@@ -150,7 +152,7 @@ const styles = StyleSheet.create({
       margin:5,
       textAlign:"left",
       paddingLeft:10,
-      borderRadius:40,
+      borderRadius:10,
       backgroundColor:"white",
       height:50
      
@@ -166,7 +168,7 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     alignItems:"center",
     backgroundColor:blue,
-    borderRadius:40,
+    borderRadius:10,
     
    
 

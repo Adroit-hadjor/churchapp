@@ -27,7 +27,7 @@ export function HomeWithBottomNav({navigation}) {
  
   return (
 
-    <Tab.Navigator tabBarOptions={{style:{height:screenHeight*0.07,paddingTop:screenHeight*0.015}}}>
+    <Tab.Navigator tabBarOptions={{style:{height:screenHeight*0.1,paddingTop:screenHeight*0.015}}}>
     <Tab.Screen 
       name="Homes"
       component={HomeInBottomNav} 
@@ -39,7 +39,7 @@ export function HomeWithBottomNav({navigation}) {
      
       }}
        />
-    <Tab.Screen
+   {/*  <Tab.Screen
      name="Trends"
       component={TrendStack} 
       options={{
@@ -64,7 +64,7 @@ export function HomeWithBottomNav({navigation}) {
         ),
         tabBarBadge: 2,
       }}
-      />
+      /> */}
 
 <Tab.Screen
      name="Messaging"

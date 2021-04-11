@@ -3,7 +3,13 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
+
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+$FirebaseSDKVersion = '7.7.0'
+$RNFirebaseAsStaticFramework = true
 target 'app' do
+  # Comment the next line if you don't want to use dynamic frameworks
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
@@ -11,7 +17,7 @@ target 'app' do
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   target 'appTests' do
-    inherit! :complete
+    inherit! :search_paths
     # Pods for testing
   end
 
@@ -19,17 +25,21 @@ target 'app' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable these next few lines.
-  use_flipper!
-  post_install do |installer|
-    flipper_post_install(installer)
-  end
+  use_flipper!({ 'Flipper-Folly' => '2.3.0' }) # update this part
+ post_install do |installer|
+   flipper_post_install(installer)
+ end
 end
 
 target 'app-tvOS' do
+  # Comment the next line if you don't want to use dynamic frameworks
+
+
   # Pods for app-tvOS
 
   target 'app-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
+
 end

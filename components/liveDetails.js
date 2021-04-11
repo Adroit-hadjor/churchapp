@@ -24,7 +24,7 @@ export const LiveDetails = ({theme,duration,program,onPress, ...props}) => {
       <View style={styles.container}>
          <View style={{paddingRight:15,flexDirection:"row",width:"100%",justifyContent:"space-between"}}>
          <Text style={{fontSize:20}}>
-           Theme:
+           SAM TV:
           </Text>
           <TouchableOpacity onPress={onPress}>
           <View style={{borderRadius:15,borderColor:"grey",borderWidth:1,width:20,height:20,justifyContent:"center",alignItems:"center",paddingBottom:4}}>
